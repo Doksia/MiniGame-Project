@@ -22,6 +22,7 @@ class Game {
     this.height = 750;
     this.width = 800;
     this.enemies = [];
+    this.bullets = [];
     this.increaseScore= document.getElementById("score");
     this.decreaseLives= document.getElementById("lives");
     this.score = 0;
@@ -48,10 +49,7 @@ class Game {
   }
 
   gameLoop() {
-    console.log("in the game loop");
-    
     this.update();
-
     // gameIsOver=True clear the interval to stop the loop
     if (this.gameIsOver) {
       clearInterval(this.gameIntervalId)
@@ -59,22 +57,22 @@ class Game {
   }
 
   update() {
-    this.player.move();
-       // Check for collision and if an obstacle is still on the screen
+    this.crosshair.move();
+       // Check for collision and if an enemy is still on the screen
     for (let i = 0; i < this.enemies.length; i++) {
       const enemy = this.enemies[i];
-      obstacle.move();
+      enemy.move();
 
-      // If the player's car collides with an obstacle
+      // If player collides with an enemy
       if (this.player.didCollide(enemy)) {
-        // Remove the obstacle element from the DOM
+        // Remove the enemy element from the DOM
         enemy.element.remove();
-        // Remove obstacle object from the array
+        // Remove enemy object from the array
         this.enemies.splice(i, 1);
         // Reduce player's lives by 1
         this.lives--;
         this.decreaseLives--;
-        // Update the counter variable to account for the removed obstacle
+        // Update the counter variable to account for the removed enemy
         i--;
       }
     }
@@ -84,16 +82,51 @@ class Game {
       this.endGame();
     }
 
-    // Create a new obstacle based on a random probability
-    // when there is no other obstacles on the screen
+    // Create a new enemy based on a random probability
+    // when there is no other enemies on the screen
     if (Math.random() > 0.98 && this.enemies.length < 1) {
       this.enemies.push(new Enemy(this.gameScreen));
     }
+    //updates the bullets
+    this.bullets.forEach((bullet) => bullet.update());
+    //removes the bullets when hit
+    for (let i = this.bullets.length - 1; i>=0; i--) {
+      if(bullets[i].isDead) {
+        bullets.splice(i, 1);
+      }
+    }
+    //clean hit enemies
+    for (let i = this.enemies.length - 1; i >= 0; i--){
+      if (enemies[i].isDestroyed) {
+        this.enemies.splice(i, 1);
+      }
+    }
   }
-
+  //handles the shooting
+  shoot(){
+    let enemyTargeted = null;
+    //checks if crosshair collaids with enemy
+    for (let enemy of this.enemies){
+      if (this.crosshair.didCollide(enemy)) {
+        enemyTargeted = enemy;
+        break;
+      }
+    }
+    //checks for enemies and then shoots
+    if (enemyTargeted !== null) {
+      const playerRect = this.player.element.getBoundingClientRect();
+      const playerX = playerRect.left + (playerRect.width/2);
+      const playerY = playerRect.top + (playerRect.heigth/2);
+      //creates bullet
+      const newBullet = new Bullet (playerX, playerY, enemyTargeted);
+      this.bullets.push(newBullet);
+    }
+  }
   //method for ending the game
   endGame() {
     this.player.element.remove();
+    this.crosshair.element.remove();
+    this.bullet.element.remove();
     this.enemies.forEach(enemy => enemy.element.remove());
 
     this.gameIsOver = true;

@@ -22,6 +22,12 @@ window.onload = function () {
   function restartGame() {
     location.reload();
   }
+  //shoot action
+  document.addEventListener("keydown", (event) => {
+    if (event.key === " "){
+      game.shoot();
+    }
+  });
   //keydown event
   function handleKeydown(event) {
     const key = event.key;
@@ -37,16 +43,16 @@ window.onload = function () {
 
       switch (key) {
         case "ArrowLeft":
-          game.player.directionX = -3;
+          game.crosshair.directionX = -10;
           break;
         case "ArrowUp":
-          game.player.directionY = -3;
+          game.crosshair.directionY = -10;
           break;
         case "ArrowRight":
-          game.player.directionX = 3;
+          game.crosshair.directionX = 10;
           break;
         case "ArrowDown":
-          game.player.directionY = 3;
+          game.crosshair.directionY = 10;
           break;
       }
     }
@@ -58,11 +64,11 @@ window.onload = function () {
   switch (key) {
     case "ArrowLeft":
     case "ArrowRight":
-      game.player.directionX = 0;
+      game.crosshair.directionX = 0;
       break;
     case "ArrowUp":
     case "ArrowDown":
-      game.player.directionY = 0;
+      game.crosshair.directionY = 0;
       break;
   }
 } 
