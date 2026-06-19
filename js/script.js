@@ -5,6 +5,7 @@ window.onload = function () {
 
   startButton.addEventListener("click", function () {
     startGame();
+    startButton.blur();
   });
 
   function startGame() {
@@ -22,15 +23,17 @@ window.onload = function () {
   function restartGame() {
     location.reload();
   }
-  //shoot action
-  document.addEventListener("keydown", (event) => {
-    if (event.key === " "){
-      game.shoot();
-    }
-  });
-  //keydown event
+  //keydown events
   function handleKeydown(event) {
     const key = event.key;
+    if (key === " ") {
+      //prevents scrolldown on screen
+      event.preventDefault(); 
+      if (game && !game.gameIsOver) {
+        game.shoot();
+      }
+      return;
+    }
     const possibleKeystrokes = [
       "ArrowLeft",
       "ArrowUp",
@@ -43,20 +46,20 @@ window.onload = function () {
 
       switch (key) {
         case "ArrowLeft":
-          game.crosshair.directionX = -10;
+          game.crosshair.directionX = -12;
           break;
         case "ArrowUp":
-          game.crosshair.directionY = -10;
+          game.crosshair.directionY = -12;
           break;
         case "ArrowRight":
-          game.crosshair.directionX = 10;
+          game.crosshair.directionX = 12;
           break;
         case "ArrowDown":
-          game.crosshair.directionY = 10;
+          game.crosshair.directionY = 12;
           break;
       }
     }
-  } 
+  }
   //keyup event
   function handleKeyup(event) {
   const key = event.key;

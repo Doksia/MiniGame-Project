@@ -13,15 +13,18 @@
         <img src="./images/logo.png" alt="" class="logo-img" />
         <br />
         <button id="start-button">Start Game</button>
-        <p>Use the arrows to shoot to your enemies!</p>
-        <img src="./images/arrows.png" alt="" class="arrows-img" />
+        <p>Use the arrows to move the crosshair and the "Space" key to shoot to your enemies!</p>
+        <img id="arrows" src="./images/arrows.png" alt="" class="arrows-img" />
+      </div>
+      <div id="space">
+        <img src="./images/spaceBar.png" alt="" class="space-bar-img" />
       </div>
 
       <div id="game-container">
         <div>
           <h2>Stats</h2>
           <p>Score: <span id="score">0</span></p>
-          <p>Lives: <span id="lives">1</span></p>
+          <p>Lives: <span id="lives">3</span></p>
         </div>
         
         <div id="game-screen"></div>
@@ -38,7 +41,7 @@
 
     <script type="text/javascript" src="js/bullet.js"></script>
     <script type="text/javascript" src="js/crosshair.js"></script>
-    <script type="text/javascript" src="js/enemies.js"></script>
+    <script type="text/javascript" src="js/enemy.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="js/player.js"></script>
     <script type="text/javascript" src="js/script.js"></script>

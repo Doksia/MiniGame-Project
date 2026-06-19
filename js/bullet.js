@@ -1,16 +1,21 @@
 class Bullet {
-    constructor(startX, startY, targetEnemy){
+    constructor(gameScreen, startPlayer, targetEnemy){
         this.gameScreen = gameScreen;
         this.element = document.createElement("img");
-        this.element.className = "magicBullet";
-        this.x = startX;
-        this.y = startY;
+        this.element.src = "./images/redCar.png"
+        this.x = startPlayer.left + (startPlayer.width / 2);
+        this.y = startPlayer.top + (startPlayer.height / 2);
+        this.element.style.position = "absolute";
         this.targetEnemy = targetEnemy; 
-        this.speed = 15;
+        this.speed = 25;
+        this.width = 10; 
+        this.height = 10;
+        this.element.style.width = `${this.width}px`;
+        this.element.style.height = `${this.height}px`;
         this.element.style.left =`${this.x}px`;
         this.element.style.top =`${this.y}px`;
         this.isDead = false;
-        document.body.appendChild(this.element);
+        this.gameScreen.appendChild(this.element);
     }
     //checks if the enemy doesnt exst and destroy bullet
     update(){
@@ -19,9 +24,8 @@ class Bullet {
             return;
         }
         //finds the center of the enemy position
-        const enemyRect = this.targetEnemy.element.getBoundingClientRect();
-        const targetX = enemyRect.left + (enemyRect.width/2);
-        const targetY = enemyRect.top + (enemyRect.heigth/2);
+        const targetX = this.targetEnemy.left + (this.targetEnemy.width / 2);
+        const targetY = this.targetEnemy.top + (this.targetEnemy.height / 2);
         //calculates direction vector to the enemy
         const dx = targetX - this.x;
         const dy = targetY - this.y;
@@ -45,7 +49,9 @@ class Bullet {
     }
     //remove bullet
     destroy(){
-        this.element.remove();
+       if (this.element.parentNode) {
+            this.element.remove();
+        }
         this.isDead = true;
     }
 }
