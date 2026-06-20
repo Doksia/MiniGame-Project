@@ -1,15 +1,16 @@
 class Bullet {
-    constructor(gameScreen, startPlayer, targetEnemy){
+    constructor(gameScreen, gameInstance, startPlayer, targetEnemy){
         this.gameScreen = gameScreen;
+        this.game = gameInstance;
         this.element = document.createElement("img");
-        this.element.src = "./images/redCar.png"
+        this.element.src = "images/MagicBullet.png"
         this.x = startPlayer.left + (startPlayer.width / 2);
         this.y = startPlayer.top + (startPlayer.height / 2);
         this.element.style.position = "absolute";
         this.targetEnemy = targetEnemy; 
         this.speed = 25;
-        this.width = 10; 
-        this.height = 10;
+        this.width = 20; 
+        this.height = 20;
         this.element.style.width = `${this.width}px`;
         this.element.style.height = `${this.height}px`;
         this.element.style.left =`${this.x}px`;
@@ -19,9 +20,9 @@ class Bullet {
     }
     //checks if the enemy doesnt exst and destroy bullet
     update(){
-        if (!this.targetEnemy || !this.targetEnemy.element){
-            this.destroy();
-            return;
+        if (!this.targetEnemy || !this.targetEnemy.element || !this.targetEnemy.element.parentNode) {
+      this.destroy();
+      return;
         }
         //finds the center of the enemy position
         const targetX = this.targetEnemy.left + (this.targetEnemy.width / 2);
@@ -43,15 +44,23 @@ class Bullet {
     //checks when hit
     hit(){
         this.isDead = true;
-        this.targetEnemy.element.remove();
-        this.targetEnemy.isDestroyed = true;
-        this.destroy();
+        if (this.game && this.game.enemies) {
+      const enemyIndex = this.game.enemies.indexOf(this.targetEnemy);
+      if (enemyIndex !== -1) {
+        this.game.enemies.splice(enemyIndex, 1);
+      }
+      this.game.addScore();
+    }
+    if (this.targetEnemy && this.targetEnemy.element) {
+      this.targetEnemy.element.remove();
+    }
+    this.destroy();
     }
     //remove bullet
     destroy(){
-       if (this.element.parentNode) {
-            this.element.remove();
-        }
+       if (this.element && this.element.parentNode) {
+      this.element.remove();
+    }
         this.isDead = true;
     }
 }

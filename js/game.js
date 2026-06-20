@@ -5,22 +5,22 @@ class Game {
     this.gameEndScreen = document.getElementById("game-end");
     this.player = new Player(
       this.gameScreen,
-      450,
+      400, //450
       375,
-      120,
       125,
-      "./images/car.png"
+      120,
+      "images/player.png"
     );
     this.crosshair = new Crosshair(
       this.gameScreen,
       300,
       400,
-      40,
-      40,
-      "./images/car.png"
+      50,
+      50,
+      "images/MagicCrosshair.png"
     );
     this.height = 750;
-    this.width = 900;
+    this.width = 950;
     this.enemies = [];
     this.bullets = [];
     this.increaseScore= document.getElementById("score");
@@ -98,9 +98,22 @@ class Game {
       }
     }
   }
+  //controls the score and an extra feature
+   addScore() {
+    this.score++;
+     if (this.increaseScore) {
+     this.increaseScore.innerText = this.score;
+    }
+    // Each time the score increments in 5 and the player has less than 3 lives, increase 1 live
+     if (this.score % 5 === 0 && this.lives < 3) {
+      this.lives ++;
+      if (this.decreaseLives) {
+        this.decreaseLives.innerText = this.lives;
+      }
+    }
+  }
   //handles the shooting
   shoot(){
-    console.log("¡Teclado detectado! Intentando disparar...");
     let enemyTargeted = null;
     //checks if crosshair collaids with enemy
     for (let enemy of this.enemies){
@@ -111,12 +124,15 @@ class Game {
     }
     //checks for enemies and then shoots
     if (enemyTargeted !== null) {
-      console.log("¡Enemigo fijado con éxito! Creando bala...");
+      //crosshair animation
+      this.crosshair.element.classList.add('crosshair-scale');
       //creates bullet
-      const newBullet = new Bullet(this.gameScreen, this.player, enemyTargeted);
-      this.bullets.push(newBullet);
-    } else {
-      console.log("La mira no está encima de ningún enemigo.");
+       const newBullet = new Bullet(this.gameScreen, this, this.player, enemyTargeted);
+       this.bullets.push(newBullet);
+       //ends crosshair animation
+       setTimeout(() => {
+      this.crosshair.element.classList.remove('crosshair-scale');
+    }, 150);
     }
   }
   //method for ending the game

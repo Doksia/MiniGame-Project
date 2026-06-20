@@ -46,16 +46,16 @@ window.onload = function () {
 
       switch (key) {
         case "ArrowLeft":
-          game.crosshair.directionX = -12;
+          game.crosshair.directionX = -15;
           break;
         case "ArrowUp":
-          game.crosshair.directionY = -12;
+          game.crosshair.directionY = -15;
           break;
         case "ArrowRight":
-          game.crosshair.directionX = 12;
+          game.crosshair.directionX = 15;
           break;
         case "ArrowDown":
-          game.crosshair.directionY = 12;
+          game.crosshair.directionY = 15;
           break;
       }
     }

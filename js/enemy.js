@@ -3,12 +3,12 @@ class Enemy {
     this.gameScreen = gameScreen;
     this.playerX = gameScreen.clientWidth/2;
     this.playerY = gameScreen.clientHeight/2;
-    this.width = 50;
-    this.height = 50;
+    this.width = 60;
+    this.height = 60;
     this.setRandomSpawn();
     this.calculateDirection();
     this.element = document.createElement("img");
-    this.element.src = "./images/redCar.png";
+    this.element.src = "images/enemy.png";
     this.element.style.position = "absolute";
     this.element.style.width = `${this.width}px`;
     this.element.style.height = `${this.height}px`;
@@ -17,7 +17,7 @@ class Enemy {
   }
 
    setRandomSpawn() {
-    const minDistance = 200; // Minimum pixel distance from the player
+    const minDistance = 300; // Minimum pixel distance from the player
     let distance = 0;
 
     while (distance < minDistance) {
@@ -38,7 +38,7 @@ class Enemy {
       this.facingDirection = 1; 
     }
   }
-
+    //Determines the player position respect the enemy position
   calculateDirection() {
     const dx = this.playerX - (this.left + this.width / 2);
     const dy = this.playerY - (this.top + this.height / 2);
