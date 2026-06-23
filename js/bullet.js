@@ -18,7 +18,7 @@ class Bullet {
         this.isDead = false;
         this.gameScreen.appendChild(this.element);
     }
-    //checks if the enemy doesnt exst and destroy bullet
+    //checks if the enemy doesnt exist and destroy bullet
     update(){
         if (!this.targetEnemy || !this.targetEnemy.element || !this.targetEnemy.element.parentNode) {
       this.destroy();
