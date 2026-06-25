@@ -49,6 +49,10 @@ class Bullet {
       if (enemyIndex !== -1) {
         this.game.enemies.splice(enemyIndex, 1);
       }
+       if (this.game.hitEnemySound) {
+            this.game.hitEnemySound.currentTime = 0; 
+            this.game.hitEnemySound.play();
+          }
       this.game.addScore();
     }
     if (this.targetEnemy && this.targetEnemy.element) {

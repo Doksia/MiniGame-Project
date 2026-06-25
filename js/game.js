@@ -3,6 +3,15 @@ class Game {
     this.startScreen = document.getElementById("game-intro");
     this.gameScreen = document.getElementById("game-screen");
     this.gameEndScreen = document.getElementById("game-end");
+    this.backGroundMusic = new Audio("sounds/09 BIDØ - Forest Lullaby 24 Bit MASTER.mp3");
+    this.backGroundMusic.loop = true;
+    this.backGroundMusic.volume = 0.08;
+    this.shootSound = new Audio("sounds/fireball-whoosh-magical-explosive-with-chimes-bosnow-fireball-whoosh-with-chimes-explosive-magical-1-0m04s.mp3");
+    this.shootSound.volume = 0.15;
+    this.hitEnemySound = new Audio("sounds/insectoid-monster-call-gfx-sounds-3-3-00-01.mp3");
+    this.hitEnemySound.volume = 0.15;
+    this.looseLiveSound = new Audio("sounds/snapping-tree-bark-volo-2-2-00-00.mp3");
+    this.looseLiveSound.volume = 0.15;
     this.player = new Player(
       this.gameScreen,
       400, //450
@@ -42,6 +51,8 @@ class Game {
     // Show game screen
     this.gameScreen.style.display = "block";
 
+    this.backGroundMusic.play();
+
     // Runs the gameLoop on 60fps and stores the ID of the interval.
     this.gameIntervalId = setInterval(() => {
       this.gameLoop()
@@ -70,6 +81,7 @@ class Game {
         this.enemies.splice(i, 1);
         this.lives--;
         this.decreaseLives.innerText = this.lives; 
+        this.looseLiveSound.play();
         
         i--;
       }
@@ -126,6 +138,8 @@ class Game {
     if (enemyTargeted !== null) {
       //crosshair animation
       this.crosshair.element.classList.add('crosshair-scale');
+      this.shootSound.currentTime = 0.2;
+      this.shootSound.play();
       //creates bullet
        const newBullet = new Bullet(this.gameScreen, this, this.player, enemyTargeted);
        this.bullets.push(newBullet);
@@ -137,6 +151,10 @@ class Game {
   }
   //method for ending the game
   endGame() {
+    this.backGroundMusic.remove();
+    this.looseLiveSound.remove();
+    this.hitEnemySound.remove();
+    this.shootSound.remove();
     this.player.element.remove();
     this.crosshair.element.remove();
     this.bullets.forEach(bullet => bullet.element.remove());
