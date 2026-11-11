@@ -11,6 +11,9 @@ Examples:
 "Why my lives arent increasing when I kill an enemy?"
 "How can I make my crosshair gets bigger when it shoots?"
 
+To play de game go to: https://doksia.github.io/MiniGame-Project/
+
+
 
 ![game-screenshot](./images/gameScreenshot.png)
 
